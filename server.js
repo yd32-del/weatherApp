@@ -11,7 +11,7 @@ const port = 3000;
 // const test = document.getElementsByTagName("div");
 // console.log(test)
 const server = http.createServer((req,res) =>{
-    
+    res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
     res.writeHead(200, {'Content-Type' : 'text/html'});
     fs.readFile("./index.html", (err, data) => {
         try{
