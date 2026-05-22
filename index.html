@@ -9,17 +9,30 @@
 <style>
     body {
         background-color: red;
+        margin: 2em;
+        
     }
+    div {
+        margin: 0.5em;
+    }
+    #weatherIcon {
+        width: 3em;
+        height: 3em;
+    }
+    
 </style>
 <body>  
     <h1>The weather</h1>
     <p>Input the weather</p>
     <input type = "text" placeholder="Enter City..">
-    <div>Temp</div>
-    <div>Weather condition</div>
-    <div>Image of day night</div>
-    <div>Weather condition icon</div>
-    <button id = "search">Veru secpcial button</button>
+    <button id = "search">Search</button>
+    <h2 id = 'name'>CityName</h2>
+    <div id = 'temp'>Temp</div>
+    <div id = 'weatherCondition'>Weather condition</div>
+    <div id = 'time'>Image of day night</div>
+    <img id = 'weatherIcon' src = "https://cdn.weatherapi.com/weather/64x64/night/122.png">
+        Weather condition icon</img>
+    
 </body>
 <script src = "main.js" type = "module"></script>
 </html>

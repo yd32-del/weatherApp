@@ -20,6 +20,9 @@ const appendApiData = async (response, data) => {
 }
 const server = http.createServer((req,res) =>{
     // const url = req.url
+    if(req.url === "/"){
+        console.log("I am the greatestyed")
+    }
     res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
     res.setHeader("Access-Control-Allow-Headers", "content-type");
     // res.write("He;loo");
@@ -40,17 +43,6 @@ const server = http.createServer((req,res) =>{
 })
 
 
-// http.get("http://127.0.0.1:5500/index.html", (res) => {
-//     let data = "";
-
-//     res.on('data', (chunk) => {
-//         data += chunk;
-//     })
-//     res.on('end', (finish) => {
-//         let newData = data
-//         console.log(newData);
-//     })
-// })
 
 server.listen(port, (err) => {
     if(err){
@@ -76,20 +68,11 @@ async function fetchData (obj) {
         obj.temperature = currentData.temp_c;
         obj.weatherIcon = currentData.condition.icon;
         obj.weatherCondition = currentData.condition.text;
-        // console.log("My json is", obj);
+
         string += JSON.stringify(obj);
-        console.log("My string is", string);
+
         return string;
     })
-    // .then((string)=>{
-    //     console.log("my string is", string);
-    //     file.writeFile("./data.json", string, (err)=>{
-    //         if(err) throw console.log(err, "ussss");
-    //         return;
-    //     });
-
-    //     return;
-    // })
     .catch((err)=>{
         console.log(err);
     })
