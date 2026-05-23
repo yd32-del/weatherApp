@@ -8,7 +8,10 @@ const button = document.getElementById("search");
 const inputField = document.querySelector("input");
 button.addEventListener("click", async (e) => {
     // console.log(inputField.value, "Myvallll")
-
+    if(inputField.value === ""){
+        alert("Enter a city!");
+        return;
+    }
     const startRequest = await fetch("http://localhost:3000/", {
         mode: 'cors',
         method: 'POST',
@@ -24,8 +27,16 @@ button.addEventListener("click", async (e) => {
     }).catch((err) => {
         console.log("My errro!!", err);
     })
-    const weatherObj = JSON.parse(startRequest);
-    appendWeather(weatherObj);
+    let weatherObj;
+    try {
+        weatherObj = JSON.parse(startRequest);
+        appendWeather(weatherObj);
+    } catch {
+        alert("The city does not exist or you haven't spelt it correctly")
+    }
+
+
+    
     // return newObj;
 })
 

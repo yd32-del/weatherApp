@@ -1,6 +1,6 @@
 
+// const apiURL = "http://api.weatherapi.com/v1/current.json?key=2ae955e7329c49a79a595050261605&q=sydney&aqi=no";
 
-const apiURL = "http://api.weatherapi.com/v1/current.json?key=2ae955e7329c49a79a595050261605&q=sydney&aqi=no";
 
 //LEARN FETCH DATA FIRST FROM API
 const http = require("node:http");
@@ -16,32 +16,61 @@ let weatherData = {
 // const test = document.getElementsByTagName("div");
 // console.log(test)
 const appendApiData = async (response, data) => {
-    response.write(data);
+    try {
+        response.write(data);
+    } catch {
+        console.log("Somethings entred worng")
+    }
+   
+    
+}
+const getCityName = async (req) => {
+    console.log("Getting city name")
+    const val = new Promise((res, err) => {
+        let data = "";
+        req.on("data", (chunk) => {  
+            data += chunk;
+        });
+        req.on('end', () => {
+            // console.log("the last data", data);
+            if(data === ""){
+                console.log("We are  empty", data);
+                err();
+            } 
+            res(data);
+        })
+    }).then((res) => {
+        console.log("AL GOOd@@", res) 
+        return res;
+    })
+    .catch((err) => {
+        console.log("There was an error", err)
+        return false;
+    });
+    return val;
+  
 }
 const server = http.createServer((req,res) =>{
-    // const url = req.url
-    if(req.url === "/"){
-        console.log("I am the greatestyed")
-    }
     res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500");
     res.setHeader("Access-Control-Allow-Headers", "content-type");
     // res.write("He;loo");
     res.writeHead(200, {'Content-Type' : 'application/json'});
-   
+    // getCityName(req);
     var foo = async () => {
-        const fetchedData = await fetchData(weatherData);
-        
-        // console.log(fetchedData, "is ehreerer");
-        appendApiData(res, fetchedData);
-        res.end()
+        const cityName = await getCityName(req);
+        console.log("Your NAMAE", cityName);
+        if(cityName){
+            console.log("Your NAMAE", cityName);
+            const fetchedData = await fetchData(weatherData, cityName);
+            appendApiData(res, fetchedData);
+        }
+        res.end();
         // res.write("helllo????");
         
     }
-    foo()
-    
+    foo();
    
-})
-
+});
 
 
 server.listen(port, (err) => {
@@ -54,8 +83,11 @@ server.listen(port, (err) => {
 
 
 
-async function fetchData (obj) {
+async function fetchData (obj, cityUrl) {
     let string = '';
+    console.log("The city isss", cityUrl);
+    const apiURL = `http://api.weatherapi.com/v1/current.json?key=2ae955e7329c49a79a595050261605&q=${cityUrl}&aqi=no`;
+    
     const response = fetch(apiURL, {
         mode: 'cors',
         method: 'GET',
@@ -74,7 +106,8 @@ async function fetchData (obj) {
         return string;
     })
     .catch((err)=>{
-        console.log(err);
+        console.log("You have not entered a correct city", err);
+        return false;
     })
     
     return response;
